@@ -19,5 +19,8 @@
   "dependencies": {
     "package-1": "file:../package-1",
     "package-2": "file:../package-2"
+  },
+  "devDependencies": {
+    "snabbdom": "^3.6.2"
   }
 }
