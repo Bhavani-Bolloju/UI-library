@@ -586,12 +586,24 @@ const patch = (0, _snabbdom.init)([
     (0, _snabbdom.styleModule),
     (0, _snabbdom.eventListenersModule)
 ]);
-let state = {
-    count: 1
+// Define hooks
+const hooks = {
+    init: (vnode)=>{
+        console.log("init - a vnode has been added	=", vnode);
+    },
+    insert: (vnode)=>{
+        console.log("insert - an element has been inserted into the DOM = ", vnode);
+    },
+    create: (emptyVnode, vnode)=>{
+        console.log("create - a DOM element has been created based on a vnode=", vnode, emptyVnode);
+    },
+    update: (oldVnode, vnode)=>{
+        console.log("update - an element is being updated =", vnode, oldVnode);
+    }
 };
-// function updateState(state) {
-//   return { ...state, count: state.count + 1 }; // Create a new state object with updated count
-// }
+let state = {
+    count: 0
+};
 function increment() {
     const value = {
         count: state.count + 1
@@ -601,15 +613,14 @@ function increment() {
 function updateView(value) {
     let oldView = template(state);
     let newView = template(value);
-    console.log(oldView, newView);
     render(oldView, newView);
     state = value;
-//should increment state
-//should update the view - call render function
 }
 function template(state) {
     const view = (0, _snabbdom.h)("div#app", [
-        (0, _snabbdom.h)("h1", state.count),
+        (0, _snabbdom.h)("h1", {
+            hook: hooks
+        }, state.count),
         (0, _snabbdom.h)("button", {
             on: {
                 click: ()=>{
@@ -622,16 +633,11 @@ function template(state) {
     return view;
 }
 const container = document.getElementById("app");
-// function render(oldNode, newNode) {
-//   container.innerHTML = "";
-//   patch(toVNode(container), newNode);
-// }
-// render(container, template(state));
 function render(oldNode, newNode) {
     container.innerHTML = "";
     patch((0, _snabbdom.toVNode)(container), newNode);
 }
-render(container, template(state));
+updateView(state);
 
 },{"snabbdom":"Rkydo"}],"Rkydo":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

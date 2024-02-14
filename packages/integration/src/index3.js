@@ -15,11 +15,27 @@ const patch = init([
   eventListenersModule
 ]);
 
-let state = { count: 1 };
+// Define hooks
+const hooks = {
+  init: (vnode) => {
+    console.log("init - a vnode has been added	=", vnode);
+  },
+  insert: (vnode) => {
+    console.log("insert - an element has been inserted into the DOM = ", vnode);
+  },
+  create: (emptyVnode, vnode) => {
+    console.log(
+      "create - a DOM element has been created based on a vnode=",
+      vnode,
+      emptyVnode
+    );
+  },
+  update: (oldVnode, vnode) => {
+    console.log("update - an element is being updated =", vnode, oldVnode);
+  }
+};
 
-// function updateState(state) {
-//   return { ...state, count: state.count + 1 }; // Create a new state object with updated count
-// }
+let state = { count: 0 };
 
 function increment() {
   const value = { count: state.count + 1 };
@@ -30,18 +46,13 @@ function updateView(value) {
   let oldView = template(state);
   let newView = template(value);
 
-  console.log(oldView, newView);
   render(oldView, newView);
   state = value;
-
-  //should increment state
-
-  //should update the view - call render function
 }
 
 function template(state) {
   const view = h("div#app", [
-    h("h1", state.count),
+    h("h1", { hook: hooks }, state.count),
     h(
       "button",
       {
@@ -61,18 +72,10 @@ function template(state) {
 
 const container = document.getElementById("app");
 
-// function render(oldNode, newNode) {
-//   container.innerHTML = "";
-
-//   patch(toVNode(container), newNode);
-// }
-
-// render(container, template(state));
-
 function render(oldNode, newNode) {
   container.innerHTML = "";
 
   patch(toVNode(container), newNode);
 }
 
-render(container, template(state));
+updateView(state);

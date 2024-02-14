@@ -5,12 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UI library</title>
     <script type="module" src="./packages/integration/src/index3.js"></script>
+    <style>
+      body,
+      #app {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #app {
+        flex-direction: column;
+        margin-top: 200px;
+        gap: 20px;
+      }
+      h1 {
+        font-size: 50px;
+        margin: 0;
+      }
+
+      button {
+        padding: 5px 30px;
+      }
+
+      button:hover {
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
-    <div>
-      <h1>counter</h1>
-      <h2>0</h2>
-      <button id="addButton">add</button>
-    </div>
+    <div id="app"></div>
   </body>
 </html>
